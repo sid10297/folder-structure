@@ -9,6 +9,7 @@ const Folder = ({
   folderData,
   handleInsertDataToTree = () => {},
   handleRename,
+  handleDelete,
 }) => {
   const [isExpand, setIsExpand] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -85,6 +86,11 @@ const Folder = ({
             >
               Rename
             </button>
+            {folderData.id !== "1" && (
+              <button onClick={() => handleDelete(folderData.id)}>
+                Delete
+              </button>
+            )}
           </div>
         </div>
         <div
@@ -118,6 +124,7 @@ const Folder = ({
               key={folder.id}
               handleInsertDataToTree={handleInsertDataToTree}
               handleRename={handleRename}
+              handleDelete={handleDelete}
             />
           ))}
         </div>
@@ -135,6 +142,7 @@ const Folder = ({
           >
             Rename
           </button>
+          <button onClick={() => handleDelete(folderData.id)}>Delete</button>
         </div>
         {showTextInput.visible && (
           <input

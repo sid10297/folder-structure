@@ -5,9 +5,7 @@ import useTraverseFolder from "./hooks/useTraverseFolder";
 
 const App = () => {
   const [folderData, setFolderData] = useState(FOLDER_DATA);
-  const { insertNode } = useTraverseFolder();
-
-  console.log(folderData);
+  const { insertNode, renameNode, deleteNode } = useTraverseFolder();
 
   function handleInsert(folderId, isFolder, name) {
     const updatedFolderStructure = insertNode(
@@ -20,8 +18,21 @@ const App = () => {
     setFolderData(updatedFolderStructure);
   }
 
-  function handleRename(...args) {
-    console.log(args);
+  function handleRename(folderId, isFolder, updatedName) {
+    const updatedFolderStructure = renameNode(
+      folderData,
+      folderId,
+      updatedName,
+      isFolder
+    );
+
+    setFolderData(updatedFolderStructure);
+  }
+
+  function handleDelete(folderId) {
+    const updatedFolderStructure = deleteNode(folderData, folderId);
+
+    setFolderData(updatedFolderStructure);
   }
 
   return (
@@ -31,6 +42,7 @@ const App = () => {
         folderData={folderData}
         handleInsertDataToTree={handleInsert}
         handleRename={handleRename}
+        handleDelete={handleDelete}
       />
     </div>
   );

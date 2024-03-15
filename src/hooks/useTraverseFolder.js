@@ -20,9 +20,29 @@ const useTraverseFolder = () => {
     return { ...tree, children: latestNode };
   };
 
-  const deleteNode = () => {};
+  const deleteNode = (tree, nodeId) => {
+    if (tree.id === nodeId) {
+      return null;
+    }
 
-  const renameNode = () => {};
+    const updatedChildren = tree.children
+      .filter((child) => child.id !== nodeId)
+      .map((child) => deleteNode(child, nodeId) || child);
+
+    return { ...tree, children: updatedChildren };
+  };
+
+  const renameNode = (tree, nodeId, updatedName) => {
+    if (tree.id === nodeId) {
+      return { ...tree, name: updatedName };
+    }
+
+    const updatedChildren = tree.children.map((child) =>
+      renameNode(child, nodeId, updatedName)
+    );
+
+    return { ...tree, children: updatedChildren };
+  };
 
   return { insertNode, deleteNode, renameNode };
 };
