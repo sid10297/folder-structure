@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { GiCancel } from "react-icons/gi";
 import { validateFileName } from "../../helpers";
 import { FaSave } from "react-icons/fa";
@@ -31,11 +31,6 @@ const Folder = ({
   const [colorInputValue, setColorInputValue] = useState(() =>
     getInitialColor(folderData)
   );
-
-  const styles = {
-    display: isExpand ? "block" : "none",
-    paddingLeft: "1.5rem",
-  };
 
   function getInitialColor(folderData) {
     return folderData.color ? folderData.color : "#000000";
@@ -70,25 +65,38 @@ const Folder = ({
     });
   }
 
-  function onAdd({ keyCode, target }) {
-    if (keyCode === 13 && target.value) {
-      const isValidName = validateFileName(target.value);
-      if (!isValidName && !showTextInput.isFolder) return alert(INVALID_INPUT);
-      handleInsert(folderData.id, showTextInput.isFolder, target.value);
-      setShowTextInput({ ...showTextInput, visible: false });
-      setInputValue("");
-    }
-  }
+  const onAdd = useCallback(
+    ({ keyCode, target }) => {
+      if (keyCode === 13 && target.value) {
+        const isValidName = validateFileName(target.value);
+        if (!isValidName && !showTextInput.isFolder)
+          return alert(INVALID_INPUT);
+        handleInsert(folderData.id, showTextInput.isFolder, target.value);
+        setShowTextInput({ ...showTextInput, visible: false });
+        setInputValue("");
+      }
+    },
+    [folderData.id, handleInsert, showTextInput]
+  );
 
-  function onRename({ keyCode, target }) {
-    if (keyCode === 13 && target.value) {
-      const isValidName = validateFileName(target.value);
-      if (!isValidName && !showTextInput.isFolder) return alert(INVALID_INPUT);
-      handleRename(folderData.id, showTextInput.isFolder, target.value);
-      setShowTextInput({ ...showTextInput, visible: false });
-      setRenameInputValue("");
-      setIsRenaming(false);
-    }
+  const onRename = useCallback(
+    ({ keyCode, target }) => {
+      if (keyCode === 13 && target.value) {
+        const isValidName = validateFileName(target.value);
+        if (!isValidName && !showTextInput.isFolder)
+          return alert(INVALID_INPUT);
+        handleRename(folderData.id, showTextInput.isFolder, target.value);
+        setShowTextInput({ ...showTextInput, visible: false });
+        setRenameInputValue("");
+        setIsRenaming(false);
+      }
+    },
+    [folderData.id, handleRename, showTextInput]
+  );
+
+  function clearValues() {
+    setColorInputValue("");
+    setShowColorInput({ ...showColorInput, visible: false });
   }
 
   function onChangeColor() {
@@ -96,12 +104,7 @@ const Folder = ({
     clearValues();
   }
 
-  function clearValues() {
-    setColorInputValue("");
-    setShowColorInput({ ...showColorInput, visible: false });
-  }
-
-  function handleBlur() {
+  const handleBlur = useCallback(() => {
     setShowTextInput({
       visible: false,
       isFolder: folderData.isFolder,
@@ -109,13 +112,16 @@ const Folder = ({
     setRenameInputValue("");
     setInputValue("");
     setIsRenaming(false);
-  }
+  }, [folderData.isFolder]);
 
-  function handleChange(event) {
-    isRenaming
-      ? setRenameInputValue(event.target.value)
-      : setInputValue(event.target.value);
-  }
+  const handleChange = useCallback(
+    (event) => {
+      isRenaming
+        ? setRenameInputValue(event.target.value)
+        : setInputValue(event.target.value);
+    },
+    [isRenaming]
+  );
 
   return (
     <div>
@@ -137,7 +143,9 @@ const Folder = ({
           handleInitiateRename={handleInitiateRename}
         />
       )}
-      <div style={styles}>
+      <div
+        style={{ display: isExpand ? "block" : "none", paddingLeft: "1.5rem" }}
+      >
         {showColorInput.visible && (
           <div>
             <ColorInput
