@@ -21,13 +21,17 @@ const useTraverseFolder = () => {
   };
 
   const deleteNode = (tree, nodeId) => {
+    if (!tree) {
+      return null;
+    }
+
     if (tree.id === nodeId) {
       return null;
     }
 
     const updatedChildren = tree.children
-      .filter((child) => child.id !== nodeId)
-      .map((child) => deleteNode(child, nodeId) || child);
+      .map((child) => deleteNode(child, nodeId))
+      .filter((child) => child !== null);
 
     return { ...tree, children: updatedChildren };
   };

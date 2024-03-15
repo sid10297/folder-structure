@@ -32,6 +32,11 @@ const Folder = ({
     getInitialColor(folderData)
   );
 
+  const styles = {
+    display: isExpand ? "block" : "none",
+    paddingLeft: "1.5rem",
+  };
+
   function getInitialColor(folderData) {
     return folderData.color ? folderData.color : "#000000";
   }
@@ -47,7 +52,7 @@ const Folder = ({
 
   function handleInitiateRename(event, folderData, isFolder) {
     event.stopPropagation();
-    isFolder && setIsExpand(true);
+    setIsExpand(true);
     setIsRenaming(true);
     setRenameInputValue(folderData.name);
     setShowTextInput({
@@ -56,7 +61,7 @@ const Folder = ({
     });
   }
 
-  function handleInitiateColorChange(event, folderData, isFolder) {
+  function handleInitiateColorChange(event, isFolder) {
     event.stopPropagation();
     isFolder && setIsExpand(true);
     setShowColorInput({
@@ -78,7 +83,6 @@ const Folder = ({
   function onRename({ keyCode, target }) {
     if (keyCode === 13 && target.value) {
       const isValidName = validateFileName(target.value);
-      console.log(showTextInput.isFolder);
       if (!isValidName && !showTextInput.isFolder) return alert(INVALID_INPUT);
       handleRename(folderData.id, showTextInput.isFolder, target.value);
       setShowTextInput({ ...showTextInput, visible: false });
@@ -133,12 +137,7 @@ const Folder = ({
           handleInitiateRename={handleInitiateRename}
         />
       )}
-      <div
-        style={{
-          display: isExpand ? "block" : "none",
-          paddingLeft: "1.5rem",
-        }}
-      >
+      <div style={styles}>
         {showColorInput.visible && (
           <div>
             <ColorInput

@@ -30,9 +30,7 @@ const FileItem = ({
         <Button
           icon={MdOutlineColorLens}
           label="CHANGE COLOR"
-          onClickHandler={(event) =>
-            handleInitiateColorChange(event, folderData, true)
-          }
+          onClickHandler={(event) => handleInitiateColorChange(event, true)}
         />
       </div>
     </div>
