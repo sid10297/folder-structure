@@ -1,7 +1,8 @@
-const Button = ({ label, onClickHandler, ...restProps }) => {
+const Button = ({ icon: Icon, label, onClickHandler, ...restProps }) => {
   return (
     <button onClick={onClickHandler} {...restProps}>
-      {label}
+      {Icon && <Icon />}
+      {Icon ? "" : label}
     </button>
   );
 };
