@@ -36,20 +36,16 @@ const Folder = ({
     return folderData.color ? folderData.color : "#000000";
   }
 
-  function handleInitiateInsert(event, isFolder) {
+  function handleInitiateAction(
+    event,
+    folderData,
+    isFolder,
+    isRenaming = false
+  ) {
     event.stopPropagation();
     setIsExpand(true);
-    setShowTextInput({
-      visible: true,
-      isFolder,
-    });
-  }
-
-  function handleInitiateRename(event, folderData, isFolder) {
-    event.stopPropagation();
-    setIsExpand(true);
-    setIsRenaming(true);
-    setRenameInputValue(folderData.name);
+    setIsRenaming(isRenaming);
+    setRenameInputValue(isRenaming ? folderData.name : "");
     setShowTextInput({
       visible: true,
       isFolder,
@@ -94,10 +90,10 @@ const Folder = ({
     [folderData.id, handleRename, showTextInput]
   );
 
-  function clearValues() {
+  const clearValues = () => {
     setColorInputValue("");
     setShowColorInput({ ...showColorInput, visible: false });
-  }
+  };
 
   function onChangeColor() {
     handleColorChange(folderData.id, showColorInput.isFolder, colorInputValue);
@@ -131,8 +127,7 @@ const Folder = ({
           setIsExpand={setIsExpand}
           handleDelete={handleDelete}
           handleInitiateColorChange={handleInitiateColorChange}
-          handleInitiateInsert={handleInitiateInsert}
-          handleInitiateRename={handleInitiateRename}
+          handleInitiateAction={handleInitiateAction}
           folderData={folderData}
         />
       ) : (
@@ -140,7 +135,7 @@ const Folder = ({
           folderData={folderData}
           handleDelete={handleDelete}
           handleInitiateColorChange={handleInitiateColorChange}
-          handleInitiateRename={handleInitiateRename}
+          handleInitiateAction={handleInitiateAction}
         />
       )}
       <div

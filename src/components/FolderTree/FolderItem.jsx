@@ -9,12 +9,11 @@ const ROOT_ID = "1";
 
 const FolderItem = ({
   folderData,
-  handleInitiateInsert,
-  handleInitiateRename,
   handleDelete,
   handleInitiateColorChange,
   setIsExpand,
   isExpand,
+  handleInitiateAction,
 }) => {
   return (
     <div className="item-container" onClick={() => setIsExpand(!isExpand)}>
@@ -27,19 +26,23 @@ const FolderItem = ({
         <Button
           icon={CgFolderAdd}
           label="ADD FOLDER"
-          onClickHandler={(event) => handleInitiateInsert(event, true)}
+          onClickHandler={(event) =>
+            handleInitiateAction(event, folderData, true)
+          }
         />
         <Button
           icon={RiFileAddLine}
           label="ADD FILE"
-          onClickHandler={(event) => handleInitiateInsert(event, false)}
+          onClickHandler={(event) =>
+            handleInitiateAction(event, folderData, false)
+          }
         />
 
         <Button
           icon={FaEdit}
           label="RENAME"
           onClickHandler={(event) =>
-            handleInitiateRename(event, folderData, true)
+            handleInitiateAction(event, folderData, true, true)
           }
         />
 

@@ -4,9 +4,9 @@ import Button from "../Button";
 
 const FileItem = ({
   folderData,
-  handleInitiateRename,
   handleDelete,
   handleInitiateColorChange,
+  handleInitiateAction,
 }) => {
   return (
     <div className="item-container">
@@ -19,7 +19,7 @@ const FileItem = ({
           label="RENAME"
           icon={FaEdit}
           onClickHandler={(event) =>
-            handleInitiateRename(event, folderData, false)
+            handleInitiateAction(event, folderData, false, true)
           }
         />
         <Button
