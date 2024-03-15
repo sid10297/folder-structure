@@ -44,7 +44,19 @@ const useTraverseFolder = () => {
     return { ...tree, children: updatedChildren };
   };
 
-  return { insertNode, deleteNode, renameNode };
+  const changeColor = (tree, nodeId, updatedColor) => {
+    if (tree.id === nodeId) {
+      return { ...tree, color: updatedColor };
+    }
+
+    const updatedChildren = tree.children.map((child) =>
+      changeColor(child, nodeId, updatedColor)
+    );
+
+    return { ...tree, children: updatedChildren };
+  };
+
+  return { insertNode, deleteNode, renameNode, changeColor };
 };
 
 export default useTraverseFolder;

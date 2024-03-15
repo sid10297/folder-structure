@@ -5,7 +5,8 @@ import useTraverseFolder from "./hooks/useTraverseFolder";
 
 const App = () => {
   const [folderData, setFolderData] = useState(FOLDER_DATA);
-  const { insertNode, renameNode, deleteNode } = useTraverseFolder();
+  const { insertNode, renameNode, deleteNode, changeColor } =
+    useTraverseFolder();
 
   function handleInsert(folderId, isFolder, name) {
     const updatedFolderStructure = insertNode(
@@ -35,6 +36,17 @@ const App = () => {
     setFolderData(updatedFolderStructure);
   }
 
+  function handleColorChange(folderId, isFolder, updatedColor) {
+    const updatedFolderStructure = changeColor(
+      folderData,
+      folderId,
+      updatedColor,
+      isFolder
+    );
+
+    setFolderData(updatedFolderStructure);
+  }
+
   return (
     <div>
       <h2>Folder Structure Management</h2>
@@ -43,6 +55,7 @@ const App = () => {
         handleInsertDataToTree={handleInsert}
         handleRename={handleRename}
         handleDelete={handleDelete}
+        handleColorChange={handleColorChange}
       />
     </div>
   );

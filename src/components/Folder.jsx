@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaFolder, FaFileAlt } from "react-icons/fa";
 
 const INITIAL_STATE = {
   visible: false,
@@ -10,10 +11,15 @@ const Folder = ({
   handleInsertDataToTree = () => {},
   handleRename,
   handleDelete,
+  handleColorChange,
 }) => {
   const [isExpand, setIsExpand] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [colorInputValue, setColorInputValue] = useState(
+    folderData.color ? folderData : "#000000"
+  );
   const [showTextInput, setShowTextInput] = useState(INITIAL_STATE);
+  const [showColorInput, setShowColorInput] = useState(INITIAL_STATE);
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameInputValue, setRenameInputValue] = useState("");
 
@@ -38,6 +44,15 @@ const Folder = ({
     });
   }
 
+  function handleInitiateColorChange(event, folderData, isFolder) {
+    event.stopPropagation();
+    isFolder && setIsExpand(true);
+    setShowColorInput({
+      visible: true,
+      isFolder,
+    });
+  }
+
   function onAdd({ keyCode, target }) {
     if (keyCode === 13 && target.value) {
       handleInsertDataToTree(
@@ -54,9 +69,23 @@ const Folder = ({
     if (keyCode === 13 && target.value) {
       handleRename(folderData.id, showTextInput.isFolder, target.value);
       setShowTextInput({ ...showTextInput, visible: false });
-      setInputValue("");
+      setRenameInputValue("");
+      setIsRenaming(false);
     }
   }
+
+  function onChangeColor() {
+    handleColorChange(folderData.id, showColorInput.isFolder, colorInputValue);
+    setColorInputValue("");
+    setShowColorInput({ ...showColorInput, visible: false });
+  }
+
+  function onCancel() {
+    setColorInputValue("");
+    setShowColorInput({ ...showColorInput, visible: false });
+  }
+
+  console.log({ inputValue });
 
   if (folderData.isFolder) {
     return (
@@ -65,9 +94,10 @@ const Folder = ({
           style={{ cursor: "pointer" }}
           onClick={() => setIsExpand(!isExpand)}
         >
-          <p>
-            {folderData.name}, {folderData.color}
-          </p>
+          <div>
+            <FaFolder color={folderData.color} /> {folderData.name}
+          </div>
+
           <div>
             <button
               onClick={(event) => handleInitiateAction(event, folderData, true)}
@@ -84,13 +114,20 @@ const Folder = ({
             <button
               onClick={(event) => handleInitiateRename(event, folderData, true)}
             >
-              Rename
+              RENAME
             </button>
             {folderData.id !== "1" && (
               <button onClick={() => handleDelete(folderData.id)}>
-                Delete
+                DELETE
               </button>
             )}
+            <button
+              onClick={(event) =>
+                handleInitiateColorChange(event, folderData, true)
+              }
+            >
+              CHANGE COLOR
+            </button>
           </div>
         </div>
         <div
@@ -99,6 +136,17 @@ const Folder = ({
             paddingLeft: "0.6rem",
           }}
         >
+          {showColorInput.visible && (
+            <div>
+              <input
+                type="color"
+                value={colorInputValue}
+                onChange={(event) => setColorInputValue(event.target.value)}
+              />
+              <button onClick={onChangeColor}>APPLY</button>
+              <button onClick={onCancel}>CANCEL</button>
+            </div>
+          )}
           {showTextInput.visible && (
             <input
               type="text"
@@ -125,6 +173,7 @@ const Folder = ({
               handleInsertDataToTree={handleInsertDataToTree}
               handleRename={handleRename}
               handleDelete={handleDelete}
+              handleColorChange={handleColorChange}
             />
           ))}
         </div>
@@ -133,17 +182,34 @@ const Folder = ({
   } else {
     return (
       <div>
-        <p>
-          {folderData.name}, {folderData.color}
-        </p>
+        <div>
+          <FaFileAlt color={folderData.color} /> {folderData.name}
+        </div>
         <div>
           <button
             onClick={(event) => handleInitiateRename(event, folderData, false)}
           >
-            Rename
+            RENAME
           </button>
-          <button onClick={() => handleDelete(folderData.id)}>Delete</button>
+          <button onClick={() => handleDelete(folderData.id)}>DELETE</button>
+          <button
+            onClick={(event) =>
+              handleInitiateColorChange(event, folderData, true)
+            }
+          >
+            CHANGE COLOR
+          </button>
         </div>
+        {showColorInput.visible && (
+          <div>
+            <input
+              type="color"
+              value={colorInputValue}
+              onChange={(event) => setColorInputValue(event.target.value)}
+            />
+            <button onClick={onChangeColor}>APPLY</button>
+          </div>
+        )}
         {showTextInput.visible && (
           <input
             type="text"
