@@ -5,54 +5,36 @@ import useTraverseFolder from "./hooks/useTraverseFolder";
 
 const App = () => {
   const [folderData, setFolderData] = useState(FOLDER_DATA);
+
   const { insertNode, renameNode, deleteNode, changeColor } =
     useTraverseFolder();
 
-  function handleInsert(folderId, isFolder, name) {
-    const updatedFolderStructure = insertNode(
-      folderData,
-      folderId,
-      name,
-      isFolder
+  const handleInsert = (folderId, isFolder, name) => {
+    setFolderData((prevData) => insertNode(prevData, folderId, name, isFolder));
+  };
+
+  const handleRename = (folderId, isFolder, updatedName) => {
+    setFolderData((prevData) =>
+      renameNode(prevData, folderId, updatedName, isFolder)
     );
+  };
 
-    setFolderData(updatedFolderStructure);
-  }
+  const handleDelete = (folderId) => {
+    setFolderData((prevData) => deleteNode(prevData, folderId));
+  };
 
-  function handleRename(folderId, isFolder, updatedName) {
-    const updatedFolderStructure = renameNode(
-      folderData,
-      folderId,
-      updatedName,
-      isFolder
+  const handleColorChange = (folderId, isFolder, updatedColor) => {
+    setFolderData((prevData) =>
+      changeColor(prevData, folderId, updatedColor, isFolder)
     );
-
-    setFolderData(updatedFolderStructure);
-  }
-
-  function handleDelete(folderId) {
-    const updatedFolderStructure = deleteNode(folderData, folderId);
-
-    setFolderData(updatedFolderStructure);
-  }
-
-  function handleColorChange(folderId, isFolder, updatedColor) {
-    const updatedFolderStructure = changeColor(
-      folderData,
-      folderId,
-      updatedColor,
-      isFolder
-    );
-
-    setFolderData(updatedFolderStructure);
-  }
+  };
 
   return (
     <div>
-      <h2>Folder Structure Management</h2>
+      <h2>Folder Management</h2>
       <Folder
         folderData={folderData}
-        handleInsertDataToTree={handleInsert}
+        handleInsert={handleInsert}
         handleRename={handleRename}
         handleDelete={handleDelete}
         handleColorChange={handleColorChange}

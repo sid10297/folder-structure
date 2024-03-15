@@ -13,8 +13,8 @@ const useTraverseFolder = () => {
     }
 
     let latestNode = [];
-    latestNode = tree.children.map((ob) => {
-      return insertNode(ob, folderId, name, isFolder);
+    latestNode = tree.children.map((child) => {
+      return insertNode(child, folderId, name, isFolder);
     });
 
     return { ...tree, children: latestNode };
