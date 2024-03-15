@@ -1,6 +1,24 @@
 import { useState } from "react";
 import { FaFolder, FaFileAlt } from "react-icons/fa";
 
+function validateFileName(fileName) {
+  var allowedCharacters = /^[a-zA-Z0-9_.-]*$/;
+  var maxLength = 100;
+  if (fileName.trim() === "") {
+    return false;
+  }
+  if (fileName.length > maxLength) {
+    return false;
+  }
+  if (!allowedCharacters.test(fileName)) {
+    return false;
+  }
+  if (fileName.indexOf(".") === -1) {
+    return false;
+  }
+  return true;
+}
+
 const INITIAL_STATE = {
   visible: false,
   isFolder: false,
@@ -55,6 +73,8 @@ const Folder = ({
 
   function onAdd({ keyCode, target }) {
     if (keyCode === 13 && target.value) {
+      const isValidName = validateFileName(target.value);
+      if (!isValidName && !showTextInput.isFolder) return;
       handleInsertDataToTree(
         folderData.id,
         showTextInput.isFolder,
@@ -67,6 +87,8 @@ const Folder = ({
 
   function onRename({ keyCode, target }) {
     if (keyCode === 13 && target.value) {
+      const isValidName = validateFileName(target.value);
+      if (!isValidName && !showTextInput.isFolder) return;
       handleRename(folderData.id, showTextInput.isFolder, target.value);
       setShowTextInput({ ...showTextInput, visible: false });
       setRenameInputValue("");
@@ -84,8 +106,6 @@ const Folder = ({
     setColorInputValue("");
     setShowColorInput({ ...showColorInput, visible: false });
   }
-
-  console.log({ inputValue });
 
   if (folderData.isFolder) {
     return (
