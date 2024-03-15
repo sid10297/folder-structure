@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { GiCancel } from "react-icons/gi";
-
 import { validateFileName } from "../../helpers";
 import { FaSave } from "react-icons/fa";
 import Button from "../Button";
@@ -13,6 +12,8 @@ const INITIAL_STATE = {
   visible: false,
   isFolder: false,
 };
+
+const INVALID_INPUT = "Invalid Input! Eg: file-name.js";
 
 const Folder = ({
   folderData,
@@ -32,7 +33,7 @@ const Folder = ({
   );
 
   function getInitialColor(folderData) {
-    return folderData.color ? folderData : "#000000";
+    return folderData.color ? folderData.color : "#000000";
   }
 
   function handleInitiateInsert(event, isFolder) {
@@ -67,7 +68,7 @@ const Folder = ({
   function onAdd({ keyCode, target }) {
     if (keyCode === 13 && target.value) {
       const isValidName = validateFileName(target.value);
-      if (!isValidName && !showTextInput.isFolder) return;
+      if (!isValidName && !showTextInput.isFolder) return alert(INVALID_INPUT);
       handleInsert(folderData.id, showTextInput.isFolder, target.value);
       setShowTextInput({ ...showTextInput, visible: false });
       setInputValue("");
@@ -77,7 +78,8 @@ const Folder = ({
   function onRename({ keyCode, target }) {
     if (keyCode === 13 && target.value) {
       const isValidName = validateFileName(target.value);
-      if (!isValidName && !showTextInput.isFolder) return;
+      console.log(showTextInput.isFolder);
+      if (!isValidName && !showTextInput.isFolder) return alert(INVALID_INPUT);
       handleRename(folderData.id, showTextInput.isFolder, target.value);
       setShowTextInput({ ...showTextInput, visible: false });
       setRenameInputValue("");
@@ -100,6 +102,9 @@ const Folder = ({
       visible: false,
       isFolder: folderData.isFolder,
     });
+    setRenameInputValue("");
+    setInputValue("");
+    setIsRenaming(false);
   }
 
   function handleChange(event) {
@@ -131,7 +136,7 @@ const Folder = ({
       <div
         style={{
           display: isExpand ? "block" : "none",
-          paddingLeft: "1.2rem",
+          paddingLeft: "1.5rem",
         }}
       >
         {showColorInput.visible && (

@@ -30,8 +30,8 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h2>Folder Management</h2>
+    <div className="container">
+      <h2 className="header">Folder Management</h2>
       <Folder
         folderData={folderData}
         handleInsert={handleInsert}

@@ -1,6 +1,5 @@
 import { FaFileAlt, FaEdit, FaTrash } from "react-icons/fa";
 import { MdOutlineColorLens } from "react-icons/md";
-
 import Button from "../Button";
 
 const FileItem = ({
@@ -10,16 +9,17 @@ const FileItem = ({
   handleInitiateColorChange,
 }) => {
   return (
-    <>
-      <div>
-        <FaFileAlt color={folderData.color} /> {folderData.name}
+    <div className="item-container">
+      <div className="title-container">
+        <FaFileAlt size={20} color={folderData.color} />
+        <span className="title">{folderData.name}</span>
       </div>
-      <div>
+      <div className="button-container">
         <Button
           label="RENAME"
           icon={FaEdit}
           onClickHandler={(event) =>
-            handleInitiateRename(event, folderData, true)
+            handleInitiateRename(event, folderData, false)
           }
         />
         <Button
@@ -35,7 +35,7 @@ const FileItem = ({
           }
         />
       </div>
-    </>
+    </div>
   );
 };
 

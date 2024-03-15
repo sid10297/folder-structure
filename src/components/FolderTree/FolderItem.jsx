@@ -3,7 +3,6 @@ import { RiFileAddLine } from "react-icons/ri";
 import { CgFolderAdd } from "react-icons/cg";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { MdOutlineColorLens } from "react-icons/md";
-
 import Button from "../Button";
 
 const ROOT_ID = "1";
@@ -18,12 +17,13 @@ const FolderItem = ({
   isExpand,
 }) => {
   return (
-    <div style={{ cursor: "pointer" }} onClick={() => setIsExpand(!isExpand)}>
-      <div>
-        <FaFolder color={folderData.color} /> {folderData.name}
+    <div className="item-container" onClick={() => setIsExpand(!isExpand)}>
+      <div className="title-container">
+        <FaFolder size={20} color={folderData.color} />
+        <span className="title">{folderData.name}</span>
       </div>
 
-      <div>
+      <div className="button-container">
         <Button
           icon={CgFolderAdd}
           label="ADD FOLDER"

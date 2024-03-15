@@ -7,3 +7,68 @@
 html {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.container {
+  margin: 2rem;
+
+  .header {
+    text-align: center;
+    padding: 0.6rem;
+  }
+}
+
+.button {
+  position: relative;
+  margin: 0.2rem;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 4px;
+}
+
+.label {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  visibility: hidden;
+  background-color: #333;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  transition: visibility 0s ease-in-out;
+  font-size: 12px;
+  z-index: 1;
+}
+
+.button:hover .label {
+  visibility: visible;
+}
+
+.item-container {
+  margin: 1rem;
+  cursor: pointer;
+  .title {
+    margin-left: 0.4rem;
+  }
+}
+
+.title-container {
+  display: flex;
+}
+
+.button-container {
+  margin-top: 0.4rem;
+}
+
+.text-input {
+  padding: 0.6rem;
+  border-radius: 10px;
+}
+
+.color-input {
+  margin: 0.4rem;
+}
+
+.text-input:focus {
+  outline-color: #333;
+}
