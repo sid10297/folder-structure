@@ -18,6 +18,7 @@ To run the project locally:
 2. Can use useReducer to handle complex states.
 3. Implement validations to prevent duplicate names.
 4. Implement Finder like folder structure UI.
+5. Implement Breadcrumbs with navigation.
 
 ## License
 
