@@ -1,5 +1,4 @@
 import Folder from "./components/FolderTree";
-import Explorer from "./components/Explorer";
 import FolderContextProvider from "./contexts/FolderContextProvider";
 
 const App = () => {
@@ -9,7 +8,6 @@ const App = () => {
       <div className="content-container">
         <FolderContextProvider>
           <Folder />
-          <Explorer />
         </FolderContextProvider>
       </div>
     </div>

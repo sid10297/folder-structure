@@ -31,7 +31,6 @@ const FolderContextProvider = ({ children }) => {
   };
 
   const getCurrentFolder = (currentFolder) => {
-    console.log(currentFolder);
     setCurrentFolder(currentFolder);
   };
 

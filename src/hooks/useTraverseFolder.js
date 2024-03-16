@@ -1,7 +1,7 @@
 const useTraverseFolder = () => {
-  const insertNode = function (tree, folderId, name, isFolder) {
-    if (tree.id === folderId && (tree.isFolder || !isFolder)) {
-      tree.children.unshift({
+  const insertNode = function (node, folderId, name, isFolder) {
+    if (node.id === folderId && (node.isFolder || !isFolder)) {
+      node.children.unshift({
         id: new Date().getTime(),
         name,
         isFolder,
@@ -9,55 +9,54 @@ const useTraverseFolder = () => {
         color: "#000000",
       });
 
-      return tree;
+      return node;
     }
 
-    let latestNode = [];
-    latestNode = tree.children.map((child) => {
+    const newChildren = node.children.map((child) => {
       return insertNode(child, folderId, name, isFolder);
     });
 
-    return { ...tree, children: latestNode };
+    return { ...node, children: newChildren };
   };
 
-  const deleteNode = (tree, nodeId) => {
-    if (!tree) {
+  const deleteNode = (node, nodeId) => {
+    if (!node) {
       return null;
     }
 
-    if (tree.id === nodeId) {
+    if (node.id === nodeId) {
       return null;
     }
 
-    const updatedChildren = tree.children
+    const updatedChildren = node.children
       .map((child) => deleteNode(child, nodeId))
       .filter((child) => child !== null);
 
-    return { ...tree, children: updatedChildren };
+    return { ...node, children: updatedChildren };
   };
 
-  const renameNode = (tree, nodeId, updatedName) => {
-    if (tree.id === nodeId) {
-      return { ...tree, name: updatedName };
+  const renameNode = (node, nodeId, updatedName) => {
+    if (node.id === nodeId) {
+      return { ...node, name: updatedName };
     }
 
-    const updatedChildren = tree.children.map((child) =>
+    const updatedChildren = node.children.map((child) =>
       renameNode(child, nodeId, updatedName)
     );
 
-    return { ...tree, children: updatedChildren };
+    return { ...node, children: updatedChildren };
   };
 
-  const changeColor = (tree, nodeId, updatedColor) => {
-    if (tree.id === nodeId) {
-      return { ...tree, color: updatedColor };
+  const changeColor = (node, nodeId, updatedColor) => {
+    if (node.id === nodeId) {
+      return { ...node, color: updatedColor };
     }
 
-    const updatedChildren = tree.children.map((child) =>
+    const updatedChildren = node.children.map((child) =>
       changeColor(child, nodeId, updatedColor)
     );
 
-    return { ...tree, children: updatedChildren };
+    return { ...node, children: updatedChildren };
   };
 
   return { insertNode, deleteNode, renameNode, changeColor };

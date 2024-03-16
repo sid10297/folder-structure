@@ -1,7 +1,6 @@
 import { FaFolder } from "react-icons/fa";
 
-const Explorer = ({ folderData }) => {
-  console.log({ folderData });
+const Explorer = () => {
   return (
     <div className="explorer">
       <h2>Explorer</h2>
