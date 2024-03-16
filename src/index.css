@@ -48,20 +48,35 @@ html {
   margin: 1rem;
   cursor: pointer;
   width: fit-content;
+  position: relative;
   .title {
     margin-left: 0.4rem;
+  }
+
+  .popup-container {
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    left: 100%;
+    z-index: 2;
   }
 }
 
 .title-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   .title-detail {
     display: flex;
   }
 
   .title-menu {
     margin-left: 1rem;
+    display: flex;
   }
 }
 
