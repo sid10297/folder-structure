@@ -4,6 +4,7 @@ import { CgFolderAdd } from "react-icons/cg";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { MdOutlineColorLens } from "react-icons/md";
 import Button from "../Button";
+import { SlOptionsVertical } from "react-icons/sl";
 
 const ROOT_ID = "1";
 
@@ -18,8 +19,13 @@ const FolderItem = ({
   return (
     <div className="item-container" onClick={() => setIsExpand(!isExpand)}>
       <div className="title-container">
-        <FaFolder size={20} color={folderData.color} />
-        <span className="title">{folderData.name}</span>
+        <div className="title-detail">
+          <FaFolder size={20} color={folderData.color} />
+          <span className="title">{folderData.name}</span>
+        </div>
+        <div className="title-menu">
+          <SlOptionsVertical />
+        </div>
       </div>
 
       <div className="button-container">

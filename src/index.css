@@ -47,6 +47,7 @@ html {
 .item-container {
   margin: 1rem;
   cursor: pointer;
+  width: fit-content;
   .title {
     margin-left: 0.4rem;
   }
@@ -54,6 +55,14 @@ html {
 
 .title-container {
   display: flex;
+  justify-content: space-between;
+  .title-detail {
+    display: flex;
+  }
+
+  .title-menu {
+    margin-left: 1rem;
+  }
 }
 
 .button-container {
