@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { GiCancel } from "react-icons/gi";
-import { validateFileName } from "../../helpers";
+import { validateName } from "../../helpers";
 import { FaSave } from "react-icons/fa";
 import Button from "../Button";
 import FolderItem from "./FolderItem";
@@ -37,6 +37,7 @@ const FolderTree = ({ folderData }) => {
     currentFolderData.color || "#000000"
   );
 
+  //* Action Initiators
   function handleInitiateAction(
     event,
     folderName,
@@ -62,12 +63,12 @@ const FolderTree = ({ folderData }) => {
     });
   }
 
+  //* Passing the event values to the main functions for CRUD
   const onAdd = useCallback(
     ({ keyCode, target }) => {
       if (keyCode === 13 && target.value) {
-        const isValidName = validateFileName(target.value);
-        if (!isValidName && !showTextInput.isFolder)
-          return alert(INVALID_INPUT);
+        const isValidName = validateName(target.value, showTextInput.isFolder);
+        if (!isValidName) return alert(INVALID_INPUT);
         handleInsert(
           currentFolderData.id,
           showTextInput.isFolder,
@@ -83,9 +84,8 @@ const FolderTree = ({ folderData }) => {
   const onRename = useCallback(
     ({ keyCode, target }) => {
       if (keyCode === 13 && target.value) {
-        const isValidName = validateFileName(target.value);
-        if (!isValidName && !showTextInput.isFolder)
-          return alert(INVALID_INPUT);
+        const isValidName = validateName(target.value, showTextInput.isFolder);
+        if (!isValidName) return alert(INVALID_INPUT);
         handleRename(
           currentFolderData.id,
           showTextInput.isFolder,
@@ -99,6 +99,7 @@ const FolderTree = ({ folderData }) => {
     [currentFolderData.id, handleRename, showTextInput]
   );
 
+  //* Action helper functions
   const clearValues = () => {
     setColorInputValue("");
     setShowColorInput({ ...showColorInput, visible: false });
@@ -134,6 +135,7 @@ const FolderTree = ({ folderData }) => {
 
   return (
     <div>
+      {/* Mount Folder or File conditionally based on currentFolderData */}
       {currentFolderData.isFolder ? (
         <FolderItem
           isExpanded={isExpanded}
@@ -157,6 +159,7 @@ const FolderTree = ({ folderData }) => {
           paddingLeft: "1.5rem",
         }}
       >
+        {/* All the inputs gets visible conditionally */}
         {showColorInput.visible && (
           <div>
             <ColorInput

@@ -16,8 +16,10 @@ const FolderItem = ({
   isExpanded,
   handleInitiateAction,
 }) => {
+  //* created this hook to get access to Popup for menu items when needed
   const { showPopup, popupRef, handleContextMenu, setShowPopup } = usePopup();
 
+  //* prevent default event and then call the action
   const handleButtonClick = (event, action) => {
     event.stopPropagation();
     setShowPopup(false);

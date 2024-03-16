@@ -1,12 +1,19 @@
-export function validateFileName(fileName) {
-  var allowedCharacters = /^[a-zA-Z0-9_.-]*$/;
-  var maxLength = 100;
-  if (fileName.trim() === "") {
-    return false;
+export function validateName(fileName, isFolder) {
+  const maxLength = 100;
+  if (isFolder || !isFolder) {
+    if (fileName.trim() === "") {
+      return false;
+    }
+    if (fileName.length > maxLength) {
+      return false;
+    }
+
+    if (isFolder) {
+      return true;
+    }
   }
-  if (fileName.length > maxLength) {
-    return false;
-  }
+  const allowedCharacters = /^[a-zA-Z0-9_.-]*$/;
+
   if (!allowedCharacters.test(fileName)) {
     return false;
   }

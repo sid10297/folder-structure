@@ -4,12 +4,15 @@ import FOLDER_DATA from "../data/folder";
 import { FolderContext } from "./FolderContext";
 
 const FolderContextProvider = ({ children }) => {
+  // * creating values for the folder context
   const [folderData, setFolderData] = useState(FOLDER_DATA);
   const [currentFolder, setCurrentFolder] = useState([]);
 
+  // * getting these functions from custom hook
   const { insertNode, renameNode, deleteNode, changeColor } =
     useTraverseFolder();
 
+  // * all the CRUD operations calling the functions from custom hook
   const handleInsert = (folderId, isFolder, name) => {
     setFolderData((prevData) => insertNode(prevData, folderId, name, isFolder));
   };
@@ -30,6 +33,7 @@ const FolderContextProvider = ({ children }) => {
     );
   };
 
+  // TODO: this would help me creating the directory UI for Explorer Component
   const getCurrentFolder = (currentFolder) => {
     setCurrentFolder(currentFolder);
   };
