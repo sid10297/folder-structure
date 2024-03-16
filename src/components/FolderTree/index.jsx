@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { GiCancel } from "react-icons/gi";
 import { validateFileName } from "../../helpers";
 import { FaSave } from "react-icons/fa";
@@ -23,7 +23,6 @@ const FolderTree = ({ folderData }) => {
     handleRename,
     handleDelete,
     handleColorChange,
-    getCurrentFolder,
   } = useFolderContext();
 
   const currentFolderData = folderData || rootFolderData;
@@ -37,10 +36,6 @@ const FolderTree = ({ folderData }) => {
   const [colorInputValue, setColorInputValue] = useState(
     currentFolderData.color || "#000000"
   );
-
-  useEffect(() => {
-    getCurrentFolder(currentFolderData);
-  }, [currentFolderData]);
 
   function handleInitiateAction(
     event,
