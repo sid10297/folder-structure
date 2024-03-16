@@ -12,6 +12,11 @@ To run the project locally:
 4. Start the development server using `yarn dev`.
 5. Open your browser and navigate to `http://localhost:5173` to view the application.
 
+## Controls
+
+1. Right click on any file or folder to see its related options.
+2. All the labels are still visible on mouse hover.
+
 ## Improvements
 
 1. Cut down the states which can be avoided.
