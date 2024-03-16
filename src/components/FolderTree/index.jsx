@@ -16,7 +16,7 @@ const INITIAL_STATE = {
 
 const INVALID_INPUT = "Invalid Input! Eg: file-name.js";
 
-const Folder = ({ folderData }) => {
+const FolderTree = ({ folderData }) => {
   const {
     folderData: rootFolderData,
     handleInsert,
@@ -28,7 +28,7 @@ const Folder = ({ folderData }) => {
 
   const currentFolderData = folderData || rootFolderData;
 
-  const [isExpand, setIsExpand] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [showTextInput, setShowTextInput] = useState(INITIAL_STATE);
   const [showColorInput, setShowColorInput] = useState(INITIAL_STATE);
@@ -49,7 +49,7 @@ const Folder = ({ folderData }) => {
     isRenaming = false
   ) {
     event.stopPropagation();
-    setIsExpand(true);
+    setIsExpanded(true);
     setIsRenaming(isRenaming);
     setRenameInputValue(isRenaming ? folderName : "");
     setShowTextInput({
@@ -60,7 +60,7 @@ const Folder = ({ folderData }) => {
 
   function handleInitiateColorChange(event, isFolder) {
     event.stopPropagation();
-    isFolder && setIsExpand(true);
+    isFolder && setIsExpanded(true);
     setShowColorInput({
       visible: true,
       isFolder,
@@ -141,8 +141,8 @@ const Folder = ({ folderData }) => {
     <div>
       {currentFolderData.isFolder ? (
         <FolderItem
-          isExpand={isExpand}
-          setIsExpand={setIsExpand}
+          isExpanded={isExpanded}
+          setIsExpanded={setIsExpanded}
           handleDelete={handleDelete}
           handleInitiateColorChange={handleInitiateColorChange}
           handleInitiateAction={handleInitiateAction}
@@ -157,7 +157,10 @@ const Folder = ({ folderData }) => {
         />
       )}
       <div
-        style={{ display: isExpand ? "block" : "none", paddingLeft: "1.5rem" }}
+        style={{
+          display: isExpanded ? "block" : "none",
+          paddingLeft: "1.5rem",
+        }}
       >
         {showColorInput.visible && (
           <div>
@@ -189,11 +192,11 @@ const Folder = ({ folderData }) => {
           />
         )}
         {currentFolderData.children.map((folder) => (
-          <Folder folderData={folder} key={folder.id} />
+          <FolderTree folderData={folder} key={folder.id} />
         ))}
       </div>
     </div>
   );
 };
 
-export default Folder;
+export default FolderTree;

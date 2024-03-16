@@ -12,8 +12,8 @@ const FolderItem = ({
   folderData,
   handleDelete,
   handleInitiateColorChange,
-  setIsExpand,
-  isExpand,
+  setIsExpanded,
+  isExpanded,
   handleInitiateAction,
 }) => {
   const { showPopup, popupRef, handleContextMenu, setShowPopup } = usePopup();
@@ -27,7 +27,7 @@ const FolderItem = ({
   return (
     <div
       className="item-container"
-      onClick={() => setIsExpand(!isExpand)}
+      onClick={() => setIsExpanded(!isExpanded)}
       onContextMenu={handleContextMenu}
     >
       <div className="title-container">

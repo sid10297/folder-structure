@@ -1,4 +1,4 @@
-import Folder from "./components/FolderTree";
+import FolderTree from "./components/FolderTree";
 import FolderContextProvider from "./contexts/FolderContextProvider";
 
 const App = () => {
@@ -7,7 +7,7 @@ const App = () => {
       <h2 className="header">Folder Management</h2>
       <div className="content-container">
         <FolderContextProvider>
-          <Folder />
+          <FolderTree />
         </FolderContextProvider>
       </div>
     </div>
