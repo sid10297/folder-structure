@@ -1,6 +1,7 @@
 const useTraverseFolder = () => {
   const insertNode = function (node, folderId, name, isFolder) {
     if (node.id === folderId && (node.isFolder || !isFolder)) {
+      // * if node with same id found, new data will be added to the start of children arr
       node.children.unshift({
         id: new Date().getTime(),
         name,
@@ -13,6 +14,7 @@ const useTraverseFolder = () => {
     }
 
     const newChildren = node.children.map((child) => {
+      // * make recursive call with child
       return insertNode(child, folderId, name, isFolder);
     });
 
@@ -24,6 +26,7 @@ const useTraverseFolder = () => {
       return null;
     }
 
+    // * return null if same id found to remove the node
     if (node.id === nodeId) {
       return null;
     }
@@ -36,10 +39,12 @@ const useTraverseFolder = () => {
   };
 
   const renameNode = (node, nodeId, updatedName) => {
+    // * update name if node is found
     if (node.id === nodeId) {
       return { ...node, name: updatedName };
     }
 
+    // * if not found make recursive calls
     const updatedChildren = node.children.map((child) =>
       renameNode(child, nodeId, updatedName)
     );
@@ -48,10 +53,12 @@ const useTraverseFolder = () => {
   };
 
   const changeColor = (node, nodeId, updatedColor) => {
+    // * update color if node is found
     if (node.id === nodeId) {
       return { ...node, color: updatedColor };
     }
 
+    // * make recursive calls to find node
     const updatedChildren = node.children.map((child) =>
       changeColor(child, nodeId, updatedColor)
     );
