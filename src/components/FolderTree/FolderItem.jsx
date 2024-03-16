@@ -27,14 +27,14 @@ const FolderItem = ({
           icon={CgFolderAdd}
           label="ADD FOLDER"
           onClickHandler={(event) =>
-            handleInitiateAction(event, folderData, true)
+            handleInitiateAction(event, folderData.name, true)
           }
         />
         <Button
           icon={RiFileAddLine}
           label="ADD FILE"
           onClickHandler={(event) =>
-            handleInitiateAction(event, folderData, false)
+            handleInitiateAction(event, folderData.name, false)
           }
         />
 
@@ -42,7 +42,7 @@ const FolderItem = ({
           icon={FaEdit}
           label="RENAME"
           onClickHandler={(event) =>
-            handleInitiateAction(event, folderData, true, true)
+            handleInitiateAction(event, folderData.name, true, true)
           }
         />
 

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GiCancel } from "react-icons/gi";
 import { validateFileName } from "../../helpers";
 import { FaSave } from "react-icons/fa";
@@ -7,6 +7,7 @@ import FolderItem from "./FolderItem";
 import ColorInput from "../ColorInput";
 import TextInput from "../TextInput";
 import FileItem from "./FileItem";
+import { useFolderContext } from "../../hooks/useFolderContext";
 
 const INITIAL_STATE = {
   visible: false,
@@ -15,37 +16,42 @@ const INITIAL_STATE = {
 
 const INVALID_INPUT = "Invalid Input! Eg: file-name.js";
 
-const Folder = ({
-  folderData,
-  handleInsert,
-  handleRename,
-  handleDelete,
-  handleColorChange,
-}) => {
+const Folder = ({ folderData }) => {
+  const {
+    folderData: rootFolderData,
+    handleInsert,
+    handleRename,
+    handleDelete,
+    handleColorChange,
+    getCurrentFolder,
+  } = useFolderContext();
+
+  const currentFolderData = folderData || rootFolderData;
+
   const [isExpand, setIsExpand] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [showTextInput, setShowTextInput] = useState(INITIAL_STATE);
   const [showColorInput, setShowColorInput] = useState(INITIAL_STATE);
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameInputValue, setRenameInputValue] = useState("");
-  const [colorInputValue, setColorInputValue] = useState(() =>
-    getInitialColor(folderData)
+  const [colorInputValue, setColorInputValue] = useState(
+    currentFolderData.color || "#000000"
   );
 
-  function getInitialColor(folderData) {
-    return folderData.color ? folderData.color : "#000000";
-  }
+  useEffect(() => {
+    getCurrentFolder(currentFolderData);
+  }, [currentFolderData]);
 
   function handleInitiateAction(
     event,
-    folderData,
+    folderName,
     isFolder,
     isRenaming = false
   ) {
     event.stopPropagation();
     setIsExpand(true);
     setIsRenaming(isRenaming);
-    setRenameInputValue(isRenaming ? folderData.name : "");
+    setRenameInputValue(isRenaming ? folderName : "");
     setShowTextInput({
       visible: true,
       isFolder,
@@ -67,12 +73,16 @@ const Folder = ({
         const isValidName = validateFileName(target.value);
         if (!isValidName && !showTextInput.isFolder)
           return alert(INVALID_INPUT);
-        handleInsert(folderData.id, showTextInput.isFolder, target.value);
+        handleInsert(
+          currentFolderData.id,
+          showTextInput.isFolder,
+          target.value
+        );
         setShowTextInput({ ...showTextInput, visible: false });
         setInputValue("");
       }
     },
-    [folderData.id, handleInsert, showTextInput]
+    [currentFolderData.id, handleInsert, showTextInput]
   );
 
   const onRename = useCallback(
@@ -81,13 +91,17 @@ const Folder = ({
         const isValidName = validateFileName(target.value);
         if (!isValidName && !showTextInput.isFolder)
           return alert(INVALID_INPUT);
-        handleRename(folderData.id, showTextInput.isFolder, target.value);
+        handleRename(
+          currentFolderData.id,
+          showTextInput.isFolder,
+          target.value
+        );
         setShowTextInput({ ...showTextInput, visible: false });
         setRenameInputValue("");
         setIsRenaming(false);
       }
     },
-    [folderData.id, handleRename, showTextInput]
+    [currentFolderData.id, handleRename, showTextInput]
   );
 
   const clearValues = () => {
@@ -96,19 +110,23 @@ const Folder = ({
   };
 
   function onChangeColor() {
-    handleColorChange(folderData.id, showColorInput.isFolder, colorInputValue);
+    handleColorChange(
+      currentFolderData.id,
+      showColorInput.isFolder,
+      colorInputValue
+    );
     clearValues();
   }
 
   const handleBlur = useCallback(() => {
     setShowTextInput({
       visible: false,
-      isFolder: folderData.isFolder,
+      isFolder: currentFolderData.isFolder,
     });
     setRenameInputValue("");
     setInputValue("");
     setIsRenaming(false);
-  }, [folderData.isFolder]);
+  }, [currentFolderData.isFolder]);
 
   const handleChange = useCallback(
     (event) => {
@@ -121,18 +139,18 @@ const Folder = ({
 
   return (
     <div>
-      {folderData.isFolder ? (
+      {currentFolderData.isFolder ? (
         <FolderItem
           isExpand={isExpand}
           setIsExpand={setIsExpand}
           handleDelete={handleDelete}
           handleInitiateColorChange={handleInitiateColorChange}
           handleInitiateAction={handleInitiateAction}
-          folderData={folderData}
+          folderData={currentFolderData}
         />
       ) : (
         <FileItem
-          folderData={folderData}
+          folderData={currentFolderData}
           handleDelete={handleDelete}
           handleInitiateColorChange={handleInitiateColorChange}
           handleInitiateAction={handleInitiateAction}
@@ -170,15 +188,8 @@ const Folder = ({
             renameInputValue={renameInputValue}
           />
         )}
-        {folderData.children.map((folder) => (
-          <Folder
-            folderData={folder}
-            key={folder.id}
-            handleInsert={handleInsert}
-            handleRename={handleRename}
-            handleDelete={handleDelete}
-            handleColorChange={handleColorChange}
-          />
+        {currentFolderData.children.map((folder) => (
+          <Folder folderData={folder} key={folder.id} />
         ))}
       </div>
     </div>

@@ -19,7 +19,7 @@ const FileItem = ({
           label="RENAME"
           icon={FaEdit}
           onClickHandler={(event) =>
-            handleInitiateAction(event, folderData, false, true)
+            handleInitiateAction(event, folderData.name, false, true)
           }
         />
         <Button
