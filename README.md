@@ -30,3 +30,6 @@ To run the project locally:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 For more detailed information, please refer to the repository: [folder-structure](https://github.com/sid10297/folder-structure)
+
+## Screenshot
+<img width="1464" alt="Screenshot 2025-03-22 at 1 07 22 AM" src="https://github.com/user-attachments/assets/00560aad-c867-46c6-a66e-9e2422db63fe" />
